@@ -5,6 +5,49 @@ document.addEventListener("DOMContentLoaded", ()=>{
     .then(renderFavs)
   }
 
+  const getHighLevel = () => {
+    fetch('http://localhost:3000/api/v1/stocks')
+    .then(resp => resp.json())
+    .then(renderMetaData)
+  }
+
+  const renderMetaData = meta => {
+    for(const hlKPI of meta.high_level_metrics ) {
+      renderHighLevel(hlKPI)
+    }
+    for(const stock of meta.top_10) {
+      renderTop10(stock)
+    }
+  }
+
+  const renderTop10 = stock => {
+    const top10Table = document.querySelector('#top10')
+    const companyRow = document.createElement('tr')
+
+    companyRow.innerHTML = `
+    <td>${stock.company_name} (${stock.symbol})</td>
+    <td>${stock.change_percent_s}</td>
+    `
+
+    top10Table.querySelector('tbody').append(companyRow)
+  }
+
+  const renderHighLevel = hlKPI => {
+    const cardDeck = document.querySelector('#kpi')
+    const infoCard = document.createElement('div')
+    infoCard.classList.add('card')
+    infoCard.innerHTML = `
+    <div class="card-body">
+      <h5 class="card-title">${hlKPI.company_name}</h5>
+      <h6 class="card-subtitle text-muted">${hlKPI.symbol}</h6>
+      <ul>
+        <li>${hlKPI.change_percent_s}</li>
+      <ul>
+    </div>
+    `
+    cardDeck.append(infoCard)
+  }
+
   const renderFavs = (favs) => {
     for(const fav of favs){
       renderFav(fav)
@@ -16,17 +59,19 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const renderFav = (fav) => {
     const favList = document.querySelector('#fav-list')
     const li = document.createElement('li')
+    li.dataset.favoriteId = fav.id
     li.innerText = fav.stock.ticker
     favList.append(li)
   }
 
   const renderInfo = (fav) => {
-    const cardDeck = document.querySelector('.card-deck')
+    const cardDeck = document.querySelector('#favs')
     const infoCard = document.createElement('div')
     infoCard.classList.add('card')
     infoCard.innerHTML = `
     <div class="card-body">
       <h5 class="card-title">${fav.stock.company}</h5>
+      <h6 class="card-subtitle text-muted">${fav.stock.ticker}</h6>
       <ul>
         <li>Latest Price: ${fav.quote.latest_price}</li>
         <li>Previous Close: ${fav.quote.previous_close}</li>
@@ -56,4 +101,5 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
 
   getFav();
+  getHighLevel();
 })
