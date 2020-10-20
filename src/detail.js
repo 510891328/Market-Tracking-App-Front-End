@@ -1,17 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  const clickHandler = () => {
-    const favList = document.querySelector('#fav-table')
-    favList.addEventListener('click', e => {
-      const favId = e.target.parentElement.dataset.favoriteId
-      getDetail(favId)
-    })
-    const top10Table = document.querySelector('#top10')
-    top10Table.addEventListener('click', e => {
-
-    })
-  }
-
   const getDetail = favId => {
     fetch(`http://localhost:3000/api/v1/favorites/${favId}`)
     .then(resp => resp.json())
@@ -19,21 +7,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  const renderInfo = (fav) => {
-    renderCard(fav)
+  const renderInfo = (companyData) => {
+    renderCard(companyData.quote)
     // renderChart(fav)
-    renderStories(fav)
+    renderStories(companyData.news)
   }
 
-  const renderStories = fav => {
+  const renderStories = allNews => {
     const newsDiv = document.querySelector('#news')
     newsDiv.innerHTML = ''
-    for(const news of fav.news) {
+    for(const news of allNews) {
       renderStory(news)
     }
   }
 
-  const renderCard = fav => {
+  const renderCard = quote => {
     const cardDeck = document.querySelector('#favs')
     cardDeck.innerHTML = ''
     cardDeck.class = 'col-3'
@@ -43,12 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     infoCard.innerHTML = `
     <div class="card-body">
-      <h5 class="card-title">${fav.stock.company}</h5>
-      <h6 class="card-subtitle text-muted">${fav.stock.ticker}</h6>
+      <h5 class="card-title">${quote.company_name}</h5>
+      <h6 class="card-subtitle text-muted">${quote.symbol}</h6>
       <ul>
-        <li>Latest Price: ${fav.quote.latest_price}</li>
-        <li>Previous Close: ${fav.quote.previous_close}</li>
-        <li>${fav.quote.change_percent_s}</li>
+        <li>Latest Price: ${quote.latest_price}</li>
+        <li>Previous Close: ${quote.previous_close}</li>
+        <li>${quote.change_percent_s}</li>
       <ul>
     </div>
     `
@@ -72,6 +60,38 @@ document.addEventListener('DOMContentLoaded', () => {
     newsDiv.append(card)
   }
 
+  const getSearch = symbol => {
+    fetch(`http://localhost:3000/api/v1/stocks/${symbol}`)
+      .then(resp => resp.json())
+      .then(renderInfo)
+  }
 
+  const clickHandler = () => {
+    const favList = document.querySelector('#fav-table')
+    favList.addEventListener('click', e => {
+      const favId = e.target.parentElement.dataset.favoriteId
+      getDetail(favId)
+      const addFav = document.querySelector('#add-fav')
+      addFav.hidden = true
+    })
+    const top10Table = document.querySelector('#top10')
+    top10Table.addEventListener('click', e => {
+      getSearch(e.target.parentElement.dataset.symbol)
+      const addFav = document.querySelector('#add-fav')
+      addFav.hidden = false
+    })
+  }
+
+  const submitHandler = () =>{
+    const searchForm = document.querySelector('#search-form')
+    searchForm.addEventListener('submit', e=>{
+      getSearch(e.target.symbol.value)
+      const addFav = document.querySelector('#add-fav')
+      addFav.hidden = false
+      e.preventDefault();
+    })
+  }
+
+  submitHandler();
   clickHandler()
 })

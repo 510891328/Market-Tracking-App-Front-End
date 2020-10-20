@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const renderTop10 = stock => {
     const top10Table = document.querySelector('#top10')
     const companyRow = document.createElement('tr')
-
+    companyRow.dataset.symbol = stock.symbol
     companyRow.innerHTML = `
     <td>${stock.company_name} (${stock.symbol})</td>
     <td>${stock.change_percent_s}</td>
@@ -103,21 +103,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
     newsDiv.append(card)
   }
 
-  const getSearch = symbol => {
-    fetch(`http://localhost:3000/api/v1/stocks/${symbol}`)
-      .then(resp => resp.json())
-      .then(console.log)
-  }
-  
-  const submitHandler = () =>{
-    const searchForm = document.querySelector('#search-form')
-    searchForm.addEventListener('submit', e=>{
-      getSearch(e.target.symbol.value)
-      e.preventDefault();
-    })
-  }
-
-  submitHandler();
   getFav();
   getHighLevel();
 })
