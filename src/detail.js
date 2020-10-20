@@ -1,10 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   const clickHandler = () => {
-    const favList = document.querySelector('#fav-list')
+    const favList = document.querySelector('#fav-table')
     favList.addEventListener('click', e => {
-      const favId = e.target.dataset.favoriteId
+      const favId = e.target.parentElement.dataset.favoriteId
       getDetail(favId)
+    })
+    const top10Table = document.querySelector('#top10')
+    top10Table.addEventListener('click', e => {
+
     })
   }
 
@@ -33,10 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardDeck = document.querySelector('#favs')
     cardDeck.innerHTML = ''
     cardDeck.class = 'col-3'
-    
+
     const infoCard = document.createElement('div')
     infoCard.classList.add('card')
-    
+
     infoCard.innerHTML = `
     <div class="card-body">
       <h5 class="card-title">${fav.stock.company}</h5>

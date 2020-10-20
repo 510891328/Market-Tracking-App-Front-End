@@ -16,11 +16,17 @@
           <!-- <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
           </div> -->
-          
+
           <h4>My Favorites</h4>
-          <ul id="fav-list">
-  
-          </ul>
+          <table id="fav-table">
+            <thead>
+              <th>Name</th>
+              <th>%</th>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
           <button id="edit-fav">Edit</button>
 
           <h4>Top 10 Most Active</h4>
@@ -44,21 +50,21 @@
           </div>
           <main>
             <div class="row">
-              <form class="form-inline">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <form class="form-inline" id="search-form">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="symbol">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               </form>
             </div>
-      
+
             <div class="row">
               <div class="card-deck" id="favs"></div>
             </div>
-    
+
             <h4>Top Stories</h4>
             <div class="row" id="news">
             </div>
           </main>
-  
+
         </div>
       </div>
 

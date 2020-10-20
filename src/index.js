@@ -57,11 +57,15 @@ document.addEventListener("DOMContentLoaded", ()=>{
   }
 
   const renderFav = (fav) => {
-    const favList = document.querySelector('#fav-list')
-    const li = document.createElement('li')
-    li.dataset.favoriteId = fav.id
-    li.innerText = fav.stock.ticker
-    favList.append(li)
+    const favTable = document.querySelector('#fav-table')
+    const companyRow = document.createElement('tr')
+    companyRow.dataset.favoriteId = fav.id
+    companyRow.innerHTML = `
+    <td>${fav.stock.company} (${fav.stock.ticker})</td>
+    <td>${fav.quote.change_percent_s}</td>
+    `
+
+    favTable.querySelector('tbody').append(companyRow)
   }
 
   const renderInfo = (fav) => {
@@ -99,7 +103,21 @@ document.addEventListener("DOMContentLoaded", ()=>{
     newsDiv.append(card)
   }
 
+  const getSearch = symbol => {
+    fetch(`http://localhost:3000/api/v1/stocks/${symbol}`)
+      .then(resp => resp.json())
+      .then(console.log)
+  }
+  
+  const submitHandler = () =>{
+    const searchForm = document.querySelector('#search-form')
+    searchForm.addEventListener('submit', e=>{
+      getSearch(e.target.symbol.value)
+      e.preventDefault();
+    })
+  }
 
+  submitHandler();
   getFav();
   getHighLevel();
 })
