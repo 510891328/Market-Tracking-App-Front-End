@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     `
 
     favTable.querySelector('tbody').append(companyRow)
+
     colorize();
   }
 
@@ -77,6 +78,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     const infoCard = document.createElement('div')
 
     infoCard.classList.add('card')
+    infoCard.classList.add('mx-2')
     infoCard.innerHTML = `
     <div class="card-body">
       <h5 class="card-title">${fav.stock.company}</h5>
@@ -98,16 +100,17 @@ document.addEventListener("DOMContentLoaded", ()=>{
     card.classList.add('card')
     card.innerHTML = `
       <div class="card-header">
-        ${fav.stock.company}
+        ${fav.stock.company} (${fav.stock.ticker})
       </div>
       <div class="card-body">
       <h5 class="card-title">${fav.news[0].headline}</h5>
-      <p class="card-text">${fav.news[0].summary}</p>
+      <p class="card-text">${fav.news[0].summary.slice(0,300)}...</p>
       <a href=${fav.news[0].url} class="btn btn-primary">More Detail</a>
       </div>
     `
     newsDiv.append(card)
   }
+
   const colorize = () => {
     const percents = document.querySelectorAll('.percent')
     for(const percent of percents){
