@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", ()=>{
+  
   const getFav = function(){
     fetch('http://localhost:3000/api/v1/favorites')
     .then(resp => resp.json())
@@ -102,6 +103,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     `
     newsDiv.append(card)
   }
+  
 
   getFav();
   getHighLevel();

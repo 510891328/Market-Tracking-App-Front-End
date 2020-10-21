@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardDeck = document.querySelector('#favs')
     cardDeck.innerHTML = ''
     cardDeck.class = 'col-3'
+    const addFav = document.querySelector('#add-fav')
+    addFav.symbol.value = quote.symbol
+    addFav.querySelector('button').hidden = false
 
     const infoCard = document.createElement('div')
     infoCard.classList.add('card')
@@ -72,13 +75,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const favId = e.target.parentElement.dataset.favoriteId
       getDetail(favId)
       const addFav = document.querySelector('#add-fav')
-      addFav.hidden = true
+      addFav.querySelector('button').hidden = true
     })
     const top10Table = document.querySelector('#top10')
     top10Table.addEventListener('click', e => {
-      getSearch(e.target.parentElement.dataset.symbol)
-      const addFav = document.querySelector('#add-fav')
-      addFav.hidden = false
+      const selectedSymbol = e.target.parentElement.dataset.symbol
+      
+      getSearch(selectedSymbol)
+    })
+    const addFav = document.querySelector('#add-fav')
+    addFav.addEventListener('click', e => {
+      console.log(e.target)
     })
   }
 
@@ -86,8 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchForm = document.querySelector('#search-form')
     searchForm.addEventListener('submit', e=>{
       getSearch(e.target.symbol.value)
-      const addFav = document.querySelector('#add-fav')
-      addFav.hidden = false
       e.preventDefault();
     })
   }
