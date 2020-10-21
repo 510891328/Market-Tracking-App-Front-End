@@ -34,3 +34,7 @@ img {
   max-width:100%;
   height:auto;
 }
+
+canvas {
+  margin-left: 4.12em;
+}

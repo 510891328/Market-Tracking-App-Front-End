@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const renderInfo = (companyData) => {
     renderCard(companyData.quote)
-    // renderChart(fav)
+    renderChart(companyData.chart)
     renderStories(companyData.news)
   }
 
@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const renderCard = quote => {
+    console.log(quote)
     const cardDeck = document.querySelector('#favs')
     cardDeck.innerHTML = ''
     cardDeck.class = 'col-3'
@@ -33,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const infoCard = document.createElement('div')
     infoCard.classList.add('card')
     infoCard.classList.add('mx-2')
+    infoCard.classList.add('col-3')
     infoCard.dataset.companyName = quote.company_name
 
     let color
@@ -54,13 +56,34 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
     `
     cardDeck.append(infoCard)
-    const canvas = document.createElement("CANVAS")
-    canvas.classList.add('myChart')
-    canvas.setAttributes('width', 200)
-    canvas.setAttributes('height', 100)
-    cardDeck.append(canvas)
+
   }
 
+  const renderChart = chart => {
+    console.log(chart)
+    const canvas = document.createElement("CANVAS")
+    const price = chart.map(e=>e.close)
+    const date = chart.map(e=>e.date)
+    const ctx = canvas.getContext('2d');
+    const lineChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: date,
+      datasets: [{
+        label: 'Closing Prices',
+        backgroundColor: '#66ccff',
+        borderColor: 'black',
+        data: price
+      }]
+    },
+      options: {}
+  });
+
+  canvas.classList.add('myChart')
+  canvas.classList.add('col-8')
+  const cardDeck = document.querySelector('#favs')
+  cardDeck.append(canvas)
+  }
   const renderStory = news =>{
     const newsDiv = document.querySelector('#news')
     const card = document.createElement('div')
@@ -142,69 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
-  const chart = {"chart": [
-      {
-        "date": "2020-04-21",
-        "close": 167.82,
-        "volume": 56203749,
-        "change": 0,
-        "change_percent": 0,
-        "change_percent_s": "0.00%",
-        "change_over_time": 0
-      },
-      {
-        "date": "2020-04-22",
-        "close": 173.52,
-        "volume": 34651604,
-        "change": 5.7,
-        "change_percent": 3.3965,
-        "change_percent_s": "+3.40%",
-        "change_over_time": 0.033965
-      },
-      {
-        "date": "2020-04-23",
-        "close": 171.42,
-        "volume": 32790804,
-        "change": -2.1,
-        "change_percent": -1.2102,
-        "change_percent_s": "-1.21%",
-        "change_over_time": 0.021452
-      },
-      {
-        "date": "2020-04-24",
-        "close": 174.55,
-        "volume": 34305320,
-        "change": 3.13,
-        "change_percent": 1.8259,
-        "change_percent_s": "+1.83%",
-        "change_over_time": 0.040102
-      },
-      {
-        "date": "2020-04-27",
-        "close": 174.05,
-        "volume": 33194384,
-        "change": -0.5,
-        "change_percent": -0.2865,
-        "change_percent_s": "-0.29%",
-        "change_over_time": 0.037123
-      }]}
-      const price = chart.chart.map(e=>e.close)
-      const date = chart.chart.map(e=>e.date)
-      console.log(price, date)
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var scatterChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: date,
-        datasets: [{
-          label: 'First Data',
-          backgroundColor: '#66ccff',
-          borderColor: 'black',
-          data: price
-        }]
-      },
-        options: {}
-    });
+
 
   submitHandler();
   clickHandler()
