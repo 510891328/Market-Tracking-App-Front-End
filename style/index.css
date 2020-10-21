@@ -1,3 +1,27 @@
 ul {
   list-style-type: none;
 }
+
+#favs, #search-form{
+  margin-top: 1em;
+}
+
+#favs div.card{
+  width:18%;
+  margin-bottom: 1em;
+}
+
+#favs div.card div.card-body ul li{
+  font-size: 12pt;
+  text-align: left;
+  padding: 0;
+  margin-top: 2px;
+}
+
+.color-red{
+  color: red;
+}
+
+.color-green{
+  color: green;
+}

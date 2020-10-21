@@ -9,7 +9,7 @@
     <script src="src/detail.js"></script>
   </head>
   <body>
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-3">
           <!-- for detail -->
@@ -44,30 +44,30 @@
           <!-- <div class="tab-content" id="v-pills-tabContent">
             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">...</div>
           </div> -->
-          <div class="row">
-            <div class="card-deck" id="kpi"></div>
-          </div>
-          <main>
-            <div class="row">
-              <form class="form-inline" id="search-form">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="symbol">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <div class="d-flex justify-content-between">
+              <div class="card-deck" id="kpi"></div>
+            </div>
+            <main class="container-fluid">
+              <div class="row d-flex justify-content-center">
+                <form class="form-inline" id="search-form">
+                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="symbol">
+                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+              </div>
+
+              <div class="d-flex flex-wrap justify-content-around" id="favs"></div>
+
+              <div class="row" id="news">
+                <h4>Top Stories</h4>
+              </div>
+              <form id="add-fav">
+                <input type="hidden" name="user" value="1">
+                <input type="hidden" name="symbol">
+                <input type="hidden" name="company_name">
+                <button hidden type="submit">Add to Favorites</button>
               </form>
-            </div>
 
-            <div class="row">
-              <div class="card-deck" id="favs"></div>
-            </div>
-
-            <h4>Top Stories</h4>
-            <div class="row" id="news"></div>
-            <form id="add-fav">
-              <input type="hidden" name="user" value="1">
-              <input type="hidden" name="symbol">
-              <button hidden type="submit">Add to Favorites</button>
-            </form>
-            
-          </main>
+            </main>
 
         </div>
       </div>

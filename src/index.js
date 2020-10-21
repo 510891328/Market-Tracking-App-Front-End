@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", ()=>{
-  
+
   const getFav = function(){
     fetch('http://localhost:3000/api/v1/favorites')
     .then(resp => resp.json())
@@ -27,10 +27,11 @@ document.addEventListener("DOMContentLoaded", ()=>{
     companyRow.dataset.symbol = stock.symbol
     companyRow.innerHTML = `
     <td>${stock.company_name} (${stock.symbol})</td>
-    <td>${stock.change_percent_s}</td>
+    <td class="percent">${stock.change_percent_s}</td>
     `
 
     top10Table.querySelector('tbody').append(companyRow)
+    colorize();
   }
 
   const renderHighLevel = hlKPI => {
@@ -42,11 +43,12 @@ document.addEventListener("DOMContentLoaded", ()=>{
       <h5 class="card-title">${hlKPI.company_name}</h5>
       <h6 class="card-subtitle text-muted">${hlKPI.symbol}</h6>
       <ul>
-        <li>${hlKPI.change_percent_s}</li>
+        <li class="percent">${hlKPI.change_percent_s}</li>
       <ul>
     </div>
     `
     cardDeck.append(infoCard)
+    colorize();
   }
 
   const renderFavs = (favs) => {
@@ -63,28 +65,31 @@ document.addEventListener("DOMContentLoaded", ()=>{
     companyRow.dataset.favoriteId = fav.id
     companyRow.innerHTML = `
     <td>${fav.stock.company} (${fav.stock.ticker})</td>
-    <td>${fav.quote.change_percent_s}</td>
+    <td class="percent">${fav.quote.change_percent_s}</td>
     `
 
     favTable.querySelector('tbody').append(companyRow)
+    colorize();
   }
 
   const renderInfo = (fav) => {
     const cardDeck = document.querySelector('#favs')
     const infoCard = document.createElement('div')
+
     infoCard.classList.add('card')
     infoCard.innerHTML = `
     <div class="card-body">
       <h5 class="card-title">${fav.stock.company}</h5>
       <h6 class="card-subtitle text-muted">${fav.stock.ticker}</h6>
-      <ul>
-        <li>Latest Price: ${fav.quote.latest_price}</li>
-        <li>Previous Close: ${fav.quote.previous_close}</li>
-        <li>${fav.quote.change_percent_s}</li>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Latest: $${fav.quote.latest_price}</li>
+        <li class="list-group-item">Previous: $${fav.quote.previous_close}</li>
+        <li class="list-group-item percent">${fav.quote.change_percent_s}</li>
       <ul>
     </div>
     `
     cardDeck.append(infoCard)
+    colorize();
   }
 
   const renderNews = (fav) =>{
@@ -103,7 +108,16 @@ document.addEventListener("DOMContentLoaded", ()=>{
     `
     newsDiv.append(card)
   }
-  
+  const colorize = () => {
+    const percents = document.querySelectorAll('.percent')
+    for(const percent of percents){
+      if(percent.innerText.charAt(0) === "-"){
+        percent.classList.add('color-red')
+      }else{
+        percent.classList.add('color-green')
+      }
+    }
+  }
 
   getFav();
   getHighLevel();

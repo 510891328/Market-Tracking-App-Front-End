@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cardDeck.class = 'col-3'
     const addFav = document.querySelector('#add-fav')
     addFav.symbol.value = quote.symbol
+    addFav.company_name.value = quote.company_name
     addFav.querySelector('button').hidden = false
 
     const infoCard = document.createElement('div')
@@ -80,12 +81,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const top10Table = document.querySelector('#top10')
     top10Table.addEventListener('click', e => {
       const selectedSymbol = e.target.parentElement.dataset.symbol
-      
       getSearch(selectedSymbol)
     })
     const addFav = document.querySelector('#add-fav')
     addFav.addEventListener('click', e => {
-      console.log(e.target)
+      const options = {
+        method: 'POST',
+        headers: {
+          'content-type':'application/json',
+          'accept':'application/json'
+        },
+        body: JSON.stringify({user_id: addFav.user.value, symbol:addFav.symbol.value, company_name: addFav.company_name.value})
+      }
+
+
+      fetch('http://localhost:3000/api/v1/favorites', options)
+      .then(resp => resp.json())
+      .then(renderFavs)
+
+      e.preventDefault();
     })
   }
 
