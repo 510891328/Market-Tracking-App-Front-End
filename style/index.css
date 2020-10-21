@@ -2,6 +2,10 @@ ul {
   list-style-type: none;
 }
 
+.card {
+  border: 1px solid black;
+}
+
 #favs, #search-form{
   margin-top: 1em;
 }
@@ -26,3 +30,7 @@ ul {
   color: green;
 }
 
+img {
+  max-width:100%;
+  height:auto;
+}
