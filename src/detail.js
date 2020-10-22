@@ -77,22 +77,51 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const renderChart = chart => {
+    const monthes = ['January','February','March','April','May','June','July','August','September','October','November','December']
+    const today = new Date()
+    const sixMonth = monthes.slice(today.getMonth()-2,today.getMonth()+1)
     const canvas = document.createElement("CANVAS")
-    const price = chart.map(e=>e.close)
     const date = chart.map(e=>e.date)
+    const price = chart.map(e=>e.close)
     const ctx = canvas.getContext('2d');
     const lineChart = new Chart(ctx, {
-    type: 'line',
-    data: {
+      type: 'line',
+      data: {
       labels: date,
       datasets: [{
-        label: 'Closing Prices',
+        label: date,
         backgroundColor: '#66ccff',
         borderColor: 'black',
         data: price
       }]
     },
-      options: {}
+      options: {
+        responsive: true,
+        title: {
+          display: false
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data){
+              return parseInt(tooltipItem.value)
+            }
+          }
+        },
+        scales: {
+          xAxes: [{
+            type: 'time',
+            gridLines: {
+              display:true
+            },
+            time: {
+              minUnit: 'month'
+            }
+          }]
+        }  
+      }
   });
 
   canvas.classList.add('myChart')

@@ -60,3 +60,7 @@ canvas {
   text-align: center;
   background: none;
 }
+
+tbody tr {
+  cursor: pointer;
+}
