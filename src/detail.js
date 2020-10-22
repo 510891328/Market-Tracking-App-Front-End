@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  let allSymbols;
 
   const getDetail = favId => {
     fetch(`http://localhost:3000/api/v1/favorites/${favId}`)
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ytdColor = 'color-green'
     }
 
-    
+
     const ytdChange = quote.ytd_change < 0 ? quote.ytd_change.toFixed(2) + '%' : '+' + quote.ytd_change.toFixed(2) + '%'
 
     infoCard.innerHTML = `
@@ -124,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
               minUnit: 'month'
             }
           }]
-        }  
+        }
       }
   });
 
@@ -159,6 +160,22 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(renderInfo)
   }
 
+  const getSymbols = () => {
+    fetch('http://localhost:3000/api/v1/companies')
+    .then(resp => resp.json())
+    .then(renderOptions)
+  }
+
+  const renderOptions = (companies) => {
+    const datalist = document.querySelector('#symbols')
+    for (const company of companies){
+      const option = document.createElement('option')
+      option.value = `${company.symbol}`
+      option.innerText = `${company.name}`
+      datalist.append(option)
+    }
+
+  }
   const clickHandler = () => {
     const favList = document.querySelector('#fav-table')
     favList.addEventListener('click', e => {
@@ -171,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       getDetail(favId)
     })
+
     const top10Table = document.querySelector('#top10')
     top10Table.addEventListener('click', e => {
       const selectedSymbol = e.target.parentElement.dataset.symbol
@@ -217,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-
+  getSymbols();
   submitHandler();
-  clickHandler()
+  clickHandler();
 })

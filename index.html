@@ -11,15 +11,12 @@
   </head>
   <body>
     <marquee id="ticker">
+      <span class="mx-3">Stonks.js</span>
       <img src="https://i.kym-cdn.com/entries/icons/mobile/000/029/959/Screen_Shot_2019-06-05_at_1.26.32_PM.jpg" width="50" height="25" alt="stonks">
     </marquee>
-    <div class="container-fluid my-5">
+    <div class="container-fluid my-3">
       <div class="row">
         <div class="col-3">
-          <!-- for detail -->
-          <!-- <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
-          </div> -->
           <div id="favTableDiv">
             <table id="fav-table" class="table table-hover table-sm">
               <thead>
@@ -62,7 +59,8 @@
 
 
               <form class="input-group mb-3" id="search-form">
-                <input type="text" class="form-control" placeholder="Search for a company" aria-label="Search" aria-describedby="basic-addon2" name="symbol">
+                <input type="text" class="form-control" placeholder="Search for a company" aria-label="Search" aria-describedby="basic-addon2" name="symbol" list="symbols">
+                <datalist id="symbols"></datalist>
                 <div class="input-group-append">
                   <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </div>
@@ -82,7 +80,7 @@
                 <input type="hidden" name="fav_id">
                 <button hidden type="submit" class="btn btn-outline-danger btn-lg btn-block">Delete from Favorites</button>
               </form>
-              
+
               <h4>Top Stories</h4>
               <div class="row" id="news">
               </div>
