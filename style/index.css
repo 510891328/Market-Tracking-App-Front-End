@@ -10,6 +10,10 @@ ul {
   margin-top: 1em;
 }
 
+#search-form {
+  width: 95%;
+}
+
 #favs div.card{
   width:18%;
   margin-bottom: 1em;
@@ -22,6 +26,11 @@ ul {
   margin-top: 2px;
 }
 
+#news div.card {
+  width: 100%;
+  margin-top: 1em;
+}
+
 .color-red{
   color: red;
 }
@@ -30,11 +39,24 @@ ul {
   color: green;
 }
 
-img {
+
+#stonks {
   max-width:100%;
   height:auto;
 }
 
 canvas {
   margin-left: 4.12em;
+}
+
+#ticker {
+  background: black;
+  color: white;
+  padding: 15px;
+  font-weight: bold;
+}
+
+.card-footer {
+  text-align: center;
+  background: none;
 }

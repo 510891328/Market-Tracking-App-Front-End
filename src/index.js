@@ -31,7 +31,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
     `
 
     top10Table.querySelector('tbody').append(companyRow)
+    renderTicker(stock)
     colorize();
+  }
+
+  const renderTicker = stock => {
+    const ticker = document.querySelector('#ticker')
+    ticker.innerHTML += `<span class="mx-3">${stock.symbol} ${stock.change_percent_s}</span>`
   }
 
   const renderHighLevel = hlKPI => {
@@ -72,6 +78,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
     colorize();
   }
+  
 
   const renderInfo = (fav) => {
     const cardDeck = document.querySelector('#favs')
@@ -83,7 +90,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     <div class="card-body">
       <h5 class="card-title">${fav.stock.company}</h5>
       <h6 class="card-subtitle text-muted">${fav.stock.ticker}</h6>
-      <ul class="list-group list-group-flush">
+      <ul class="list-group list-group-flush mt-3">
         <li class="list-group-item">Latest: $${fav.quote.latest_price}</li>
         <li class="list-group-item">Previous: $${fav.quote.previous_close}</li>
         <li class="list-group-item percent">${fav.quote.change_percent_s}</li>

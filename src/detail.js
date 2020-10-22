@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const renderCard = quote => {
-    console.log(quote)
     const cardDeck = document.querySelector('#favs')
     cardDeck.innerHTML = ''
     cardDeck.class = 'col-3'
@@ -44,15 +43,33 @@ document.addEventListener('DOMContentLoaded', () => {
       color = 'color-green'
     }
 
+    let ytdColor
+    if(quote.ytd_change[0] === "-") {
+      ytdColor = 'color-red'
+    } else {
+      ytdColor = 'color-green'
+    }
+
+    const ytdChange = quote.ytd_change[0] === "-" ? quote.ytd_change.toFixed(2) + '%' : '+' + quote.ytd_change.toFixed(2) + '%'
+
     infoCard.innerHTML = `
     <div class="card-body">
       <h5 class="card-title">${quote.company_name}</h5>
-      <h6 class="card-subtitle text-muted">${quote.symbol}</h6>
-      <ul class="list-group list-group-flush">
+      <h6 class="card-subtitle text-muted mt-3">Primary Exchange: ${quote.primary_exchange}</h6>
+      <h6 class="card-subtitle text-muted mt-3">Ticker: ${quote.symbol}</h6>
+      <ul class="list-group list-group-flush mt-3">
         <li class="list-group-item">Latest: $${quote.latest_price}</li>
         <li class="list-group-item">Previous: $${quote.previous_close}</li>
-        <li class="list-group-item ${color}">${quote.change_percent_s}</li>
+        <li class="list-group-item"> Change: <span class="${color}">${quote.change_percent_s}</span></li>
+        <li class="list-group-item">52-Wk High: $${parseFloat(quote.week_52_high).toFixed(2)}</li>
+        <li class="list-group-item">52-Wk Low: $${parseFloat(quote.week_52_low).toFixed(2)}</li>
+        <li class="list-group-item">YTD Change: <span class="${ytdColor}">${ytdChange}</span></li>
+        <li class="list-group-item">P/E Ratio: ${quote.pe_ratio}</li>
+        <li class="list-group-item">Market Cap: $${(parseInt(quote.market_cap)/1000000).toLocaleString()}M</li>
       <ul>
+    </div>
+    <div class="card-footer text-muted">
+      Updated At: ${quote.latest_time}
     </div>
     `
     cardDeck.append(infoCard)
@@ -60,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const renderChart = chart => {
-    console.log(chart)
     const canvas = document.createElement("CANVAS")
     const price = chart.map(e=>e.close)
     const date = chart.map(e=>e.date)
