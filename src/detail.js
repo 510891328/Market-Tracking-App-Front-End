@@ -26,9 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
     cardDeck.innerHTML = ''
     cardDeck.class = 'col-3'
     const addFav = document.querySelector('#add-fav')
+    console.log(addFav)
     addFav.symbol.value = quote.symbol
     addFav.company_name.value = quote.company_name
-    addFav.querySelector('button').hidden = false
 
     const infoCard = document.createElement('div')
     infoCard.classList.add('card')
@@ -44,13 +44,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let ytdColor
-    if(quote.ytd_change[0] === "-") {
+    if(quote.ytd_change < 0) {
       ytdColor = 'color-red'
     } else {
       ytdColor = 'color-green'
     }
 
-    const ytdChange = quote.ytd_change[0] === "-" ? quote.ytd_change.toFixed(2) + '%' : '+' + quote.ytd_change.toFixed(2) + '%'
+    
+    const ytdChange = quote.ytd_change < 0 ? quote.ytd_change.toFixed(2) + '%' : '+' + quote.ytd_change.toFixed(2) + '%'
 
     infoCard.innerHTML = `
     <div class="card-body">
@@ -77,22 +78,25 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const renderChart = chart => {
-    const monthes = ['January','February','March','April','May','June','July','August','September','October','November','December']
-    const today = new Date()
-    const sixMonth = monthes.slice(today.getMonth()-2,today.getMonth()+1)
+
     const canvas = document.createElement("CANVAS")
+    let data = {}
     const date = chart.map(e=>e.date)
     const price = chart.map(e=>e.close)
+    data.date = date
+    data.price = price
+    console.log(data)
     const ctx = canvas.getContext('2d');
+
     const lineChart = new Chart(ctx, {
       type: 'line',
       data: {
-      labels: date,
+      labels: data.date,
       datasets: [{
-        label: date,
+        label: data.date,
         backgroundColor: '#66ccff',
         borderColor: 'black',
-        data: price
+        data: data.price
       }]
     },
       options: {
@@ -106,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tooltips: {
           callbacks: {
             label: function(tooltipItem, data){
-              return parseInt(tooltipItem.value)
+              return 'Close Price: $' + tooltipItem.value
             }
           }
         },
@@ -162,14 +166,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const delForm = document.querySelector('#delete-fav')
       delForm.querySelector('button').hidden = false
       delForm.fav_id.value = favId
-
-      getDetail(favId)
       const addFav = document.querySelector('#add-fav')
       addFav.querySelector('button').hidden = true
+
+      getDetail(favId)
     })
     const top10Table = document.querySelector('#top10')
     top10Table.addEventListener('click', e => {
       const selectedSymbol = e.target.parentElement.dataset.symbol
+      const addFav = document.querySelector('#add-fav')
+      addFav.querySelector('button').hidden = false
       getSearch(selectedSymbol)
     })
     const addFav = document.querySelector('#add-fav')
@@ -215,53 +221,3 @@ document.addEventListener('DOMContentLoaded', () => {
   submitHandler();
   clickHandler()
 })
-
-const chart = {"chart": [
-    {
-      "date": "2020-04-21",
-      "close": 167.82,
-      "volume": 56203749,
-      "change": 0,
-      "change_percent": 0,
-      "change_percent_s": "0.00%",
-      "change_over_time": 0
-    },
-    {
-      "date": "2020-04-22",
-      "close": 173.52,
-      "volume": 34651604,
-      "change": 5.7,
-      "change_percent": 3.3965,
-      "change_percent_s": "+3.40%",
-      "change_over_time": 0.033965
-    },
-    {
-      "date": "2020-04-23",
-      "close": 171.42,
-      "volume": 32790804,
-      "change": -2.1,
-      "change_percent": -1.2102,
-      "change_percent_s": "-1.21%",
-      "change_over_time": 0.021452
-    },
-    {
-      "date": "2020-04-24",
-      "close": 174.55,
-      "volume": 34305320,
-      "change": 3.13,
-      "change_percent": 1.8259,
-      "change_percent_s": "+1.83%",
-      "change_over_time": 0.040102
-    },
-    {
-      "date": "2020-04-27",
-      "close": 174.05,
-      "volume": 33194384,
-      "change": -0.5,
-      "change_percent": -0.2865,
-      "change_percent_s": "-0.29%",
-      "change_over_time": 0.037123
-    },
-
-  ]
-}
