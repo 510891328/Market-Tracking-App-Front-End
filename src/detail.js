@@ -196,9 +196,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const selectedSymbol = e.target.parentElement.dataset.symbol
       const addFav = document.querySelector('#add-fav')
       addFav.querySelector('button').hidden = false
+      const delForm = document.querySelector('#delete-fav')
+      delForm.querySelector('button').hidden = true
       getSearch(selectedSymbol)
     })
-    
+
     const addFav = document.querySelector('#add-fav')
     addFav.addEventListener('click', e => {
       const options = {
@@ -231,8 +233,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const submitHandler = () =>{
     const searchForm = document.querySelector('#search-form')
-    searchForm.addEventListener('submit', e=>{
+    searchForm.addEventListener('submit', e => {
       getSearch(e.target.symbol.value)
+      const addFav = document.querySelector('#add-fav')
+      addFav.querySelector('button').hidden = false
+      const delForm = document.querySelector('#delete-fav')
+      delForm.querySelector('button').hidden = true
       e.preventDefault();
     })
   }
