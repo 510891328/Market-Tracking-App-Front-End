@@ -64,6 +64,12 @@ document.addEventListener("DOMContentLoaded", ()=>{
   }
 
   const renderFavs = (favs) => {
+    const favTable = document.querySelector('#fav-table')
+    favTable.querySelector('tbody').innerHTML = ""
+    const favCard = document.querySelector('#favs')
+    favCard.innerHTML = ""
+    const newsDiv = document.querySelector('#news')
+    newsDiv.innerHTML = ""
     for(const fav of favs){
       renderFav(fav)
       renderInfo(fav)
@@ -84,7 +90,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
     colorize();
   }
-  
+
 
   const renderInfo = (fav) => {
     const cardDeck = document.querySelector('#favs')
@@ -135,6 +141,40 @@ document.addEventListener("DOMContentLoaded", ()=>{
     }
   }
 
+  const clickHandler = () =>{
+    const addFav = document.querySelector('#add-fav')
+    addFav.addEventListener('click', e => {
+      const options = {
+        method: 'POST',
+        headers: {
+          'content-type':'application/json',
+          'accept':'application/json'
+        },
+        body: JSON.stringify({user_id: addFav.user.value, symbol:addFav.symbol.value, company_name: addFav.company_name.value})
+      }
+
+      fetch('http://localhost:3000/api/v1/favorites', options)
+      .then(resp => resp.json())
+      .then(getFav)
+      addFav.querySelector('button').hidden = true
+      e.preventDefault();
+    })
+
+    const delFav = document.querySelector('#delete-fav')
+    delFav.addEventListener('click', e => {
+
+      const favId = e.target.parentElement.fav_id.value
+
+      fetch('http://localhost:3000/api/v1/favorites/' + favId, {method: "DELETE"})
+        .then(resp => resp.json())
+        .then(getFav)
+      delFav.querySelector('button').hidden = true
+      e.preventDefault()
+    })
+
+  }
+
+  clickHandler();
   getFav();
   getHighLevel();
 })
