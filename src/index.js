@@ -24,10 +24,10 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const renderTop10 = stock => {
     const top10Table = document.querySelector('#top10')
     const companyRow = document.createElement('tr')
-    companyRow.dataset.symbol = stock.symbol
+    companyRow.dataset.symbol = stock.quote.symbol
     companyRow.innerHTML = `
-    <td>${stock.company_name} (${stock.symbol})</td>
-    <td class="percent">${stock.change_percent_s}</td>
+    <td>${stock.quote.company_name} (${stock.quote.symbol})</td>
+    <td class="percent">${stock.quote.change_percent_s}</td>
     `
 
     top10Table.querySelector('tbody').append(companyRow)
@@ -37,19 +37,25 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   const renderTicker = stock => {
     const ticker = document.querySelector('#ticker')
-    ticker.innerHTML += `<span class="mx-3">${stock.symbol} ${stock.change_percent_s}</span>`
+    ticker.innerHTML += `<span class="mx-3"><img src=${stock.logo.url} alt="logo" class="ticker" height="25" width="25">  ${stock.quote.symbol} ${stock.quote.change_percent_s}</span>`
   }
 
   const renderHighLevel = hlKPI => {
     const cardDeck = document.querySelector('#kpi')
     const infoCard = document.createElement('div')
+
+    const percentChg = ((hlKPI.latest_price - hlKPI.previous_close) / hlKPI.previous_close) * 100
+    const formattedPct = percentChg > 0 ? `+${percentChg.toFixed(2)}` : percentChg.toFixed(2)
+
     infoCard.classList.add('card')
     infoCard.innerHTML = `
     <div class="card-body">
       <h5 class="card-title">${hlKPI.company_name}</h5>
       <h6 class="card-subtitle text-muted">${hlKPI.symbol}</h6>
-      <ul>
-        <li class="percent">${hlKPI.change_percent_s}</li>
+      <ul class="list-group list-group-flush mt-3">
+        <li class="list-group-item">Latest: $${hlKPI.latest_price}</li>
+        <li class="list-group-item">Previous: $${hlKPI.previous_close}</li>
+        <li class="list-group-item percent">${formattedPct}%</li>
       <ul>
     </div>
     `
@@ -112,7 +118,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
       <div class="card-body">
       <h5 class="card-title">${fav.news[0].headline}</h5>
       <p class="card-text">${fav.news[0].summary.slice(0,300)}...</p>
-      <a href=${fav.news[0].url} class="btn btn-primary">More Detail</a>
+      <a href=${fav.news[0].url} class="btn btn-primary" target="_blank" >More Detail</a>
       </div>
     `
     newsDiv.append(card)
@@ -123,7 +129,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     for(const percent of percents){
       if(percent.innerText.charAt(0) === "-"){
         percent.classList.add('color-red')
-      }else{
+      } else {
         percent.classList.add('color-green')
       }
     }

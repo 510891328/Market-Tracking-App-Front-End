@@ -86,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const price = chart.map(e=>e.close)
     data.date = date
     data.price = price
-    console.log(data)
     const ctx = canvas.getContext('2d');
 
     const lineChart = new Chart(ctx, {
@@ -134,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const cardDeck = document.querySelector('#favs')
   cardDeck.append(canvas)
   }
+
   const renderStory = news =>{
     const newsDiv = document.querySelector('#news')
     const card = document.createElement('div')
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="card-body">
       <h5 class="card-title">${news.headline}</h5>
       <p class="card-text">${news.summary.slice(0,300)}...</p>
-      <a href=${news.url} class="btn btn-primary">More Detail</a>
+      <a href=${news.url} class="btn btn-primary" target="_blank">More Detail</a>
       </div>
     `
     newsDiv.append(card)
@@ -174,8 +174,10 @@ document.addEventListener('DOMContentLoaded', () => {
       option.innerText = `${company.name}`
       datalist.append(option)
     }
-
+    const searchForm = document.querySelector('#search-form')
+    searchForm.hidden = false
   }
+
   const clickHandler = () => {
     const favList = document.querySelector('#fav-table')
     favList.addEventListener('click', e => {
@@ -196,6 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
       addFav.querySelector('button').hidden = false
       getSearch(selectedSymbol)
     })
+    
     const addFav = document.querySelector('#add-fav')
     addFav.addEventListener('click', e => {
       const options = {
@@ -235,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  getSymbols();
+  setTimeout(getSymbols(),1000)
   submitHandler();
   clickHandler();
 })
