@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", ()=>{
 
   const getFav = function(){
-    fetch('http://localhost:3000/api/v1/favorites')
+    fetch('https://market-tracking-app.herokuapp.com/api/v1/favorites')
     .then(resp => resp.json())
     .then(renderFavs)
   }
 
   const getHighLevel = () => {
-    fetch('http://localhost:3000/api/v1/stocks')
+    fetch('https://market-tracking-app.herokuapp.com/api/v1/stocks')
     .then(resp => resp.json())
     .then(renderMetaData)
   }
@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
         body: JSON.stringify({user_id: addFav.user.value, symbol:addFav.symbol.value, company_name: addFav.company_name.value})
       }
 
-      fetch('http://localhost:3000/api/v1/favorites', options)
+      fetch('https://market-tracking-app.herokuapp.com/api/v1/favorites', options)
       .then(resp => resp.json())
       .then(getFav)
       addFav.querySelector('button').hidden = true
@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
       const favId = e.target.parentElement.fav_id.value
 
-      fetch('http://localhost:3000/api/v1/favorites/' + favId, {method: "DELETE"})
+      fetch('https://market-tracking-app.herokuapp.com/api/v1/favorites/' + favId, {method: "DELETE"})
         .then(resp => resp.json())
         .then(getFav)
       delFav.querySelector('button').hidden = true
