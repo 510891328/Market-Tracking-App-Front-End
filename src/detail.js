@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let allSymbols;
 
   const getDetail = favId => {
-    fetch(`http://localhost:3000/api/v1/favorites/${favId}`)
+    fetch(`https://market-tracking-app.herokuapp.com/api/v1/favorites/${favId}`)
     .then(resp => resp.json())
     .then(renderInfo)
   }
@@ -155,13 +155,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const getSearch = symbol => {
-    fetch(`http://localhost:3000/api/v1/stocks/${symbol}`)
+    fetch(`https://market-tracking-app.herokuapp.com/api/v1/stocks/${symbol}`)
       .then(resp => resp.json())
       .then(renderInfo)
   }
 
   const getSymbols = () => {
-    fetch('http://localhost:3000/api/v1/companies')
+    fetch('https://market-tracking-app.herokuapp.com/api/v1/companies')
     .then(resp => resp.json())
     .then(renderOptions)
   }
